@@ -1,4 +1,20 @@
-﻿using System;
+﻿/****************************************************************************************************
+Author:          Xiaoying Wang
+DateTime:        2015/4/22 9:33:11
+Email Address:   wangxiaoying_op@163.com
+CLR Version:     4.0.30319.18444
+Machine Name:    WXY-PC
+Namespace:       MapReduceDemo
+Description:    
+ * The Map/Reduce functions are another important parallel programming pattern, It is suitable for a 
+ * small program and large multi-server computations. The meaning of this pattern is that you have two
+ * special functions to apply to your data. The first of them is the Map function. It takes a set of 
+ * initial data in a key/value list form and produces another key/value sequence, transforming the data
+ * to the comfortable format for further processing. Then we use another function called Reduce. The Reduce
+ * function takes the result of the Map function and transform it to a smallest possible set of data that
+ * we actually need.
+****************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -96,7 +112,11 @@ time to get to sea as soon as I can.
             Func<TMapped, TKey> keySelector,
             Func<IGrouping<TKey, TMapped>, IEnumerable<TResult>> reduce)
         {
+            //We use SelectMany to transform the initial sequence to the sequence we need by applying the 
+            //Map function.
             return source.SelectMany(map)
+                //Then we choose how we group the new sequence with the keySelector function, and we use
+                //GroupBy with this key to produce an intermediate key/value sequence.
                 .GroupBy(keySelector)
                 .SelectMany(reduce);
         }
